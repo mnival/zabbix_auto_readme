@@ -13,7 +13,7 @@ param (
   [int]$templateid = $(throw "-templateid is required and numerical value.")
 )
 
-. "$PSScriptRoot\conf_get_template_readme.ps1"
+. "$PSScriptRoot\get_template_readme_conf.ps1"
 
 # Url Zabbix
 $_url_zabbix = get_url_zabbix -zabbix ${zabbix}
