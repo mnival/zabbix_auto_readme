@@ -88,7 +88,7 @@ function _generate_description($_description) {
 	if (empty($_description)) {
 		$_description_stringify = "<p>-</p>";
 	} else {
-		$_description_stringify = sprintf("<p>%s</p>", preg_replace('/\r\n?/', "<br/>", $_description));
+		$_description_stringify = sprintf("<p>%s</p>", preg_replace('/(\n)|(\r\n)/', "<br/>", $_description));
 	}
 	return $_description_stringify;
 }
@@ -143,7 +143,9 @@ $_zabbix_template = $_zabbix_export['templates'][0];
 $_template_name = $_zabbix_template['name'];
 // Get the description to feed the setup and the configuration and the description of the templates
 $_description = preg_replace("/@@CRLF@@@@CRLF@@/", "@@CRLF@@", preg_replace("/[\r\n]/", "@@CRLF@@", $_zabbix_template['description']));
-$_template_version = preg_replace("/.*(?:@@CRLF@@)?@@VERSION=([\d+:\-\. ]+).*/", "\\1", $_description);
+if (preg_match("/@@VERSION/", $_description)) {
+  $_template_version = preg_replace("/.*@@VERSION=([\d+:\-\. ]+)@@CRLF@@/", "\\1", $_description);
+}
 // Setup
 if (preg_match("/@@SETUP.*SETUP@@/", $_description)) {
 	$_setup = preg_replace("/(?:@@CRLF@@)?SETUP@@/", "SETUP@@", $_description);
