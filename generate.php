@@ -197,7 +197,8 @@ if (isset($_zabbix_template['macros']) && count($_zabbix_template['macros'])>0) 
 	$_macro_used .= sprintf ("|Name|Description|Default|\n|----|-----------|-------|\n");
 	foreach ($_templates_macros as $_key => $_value) {
 		if (!empty($_value['value'])) {
-			$_macro_value = sprintf("`%s`", $_value['value']);
+      $_macro_value = preg_replace("/\|/", "\\|", $_value['value']);
+      $_macro_value = sprintf("`%s`", $_macro_value);
 		} else {
 			$_macro_value = "";
 		}
